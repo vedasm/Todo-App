@@ -1,36 +1,92 @@
+const STORAGE_KEY = 'todo-app-tasks';
+
+function loadTasks() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    try {
+        return JSON.parse(raw);
+    } catch (e) {
+        console.error('Could not parse saved tasks, starting fresh.', e);
+        return [];
+    }
+}
+
+function saveTasks() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+}
+
+let tasks = loadTasks();
+
+function render() {
+    const taskList = document.getElementById('task-list');
+    taskList.innerHTML = '';
+
+    tasks.forEach(task => {
+        const listItem = document.createElement('li');
+        listItem.dataset.id = task.id;
+
+        const taskSpan = document.createElement('span');
+        taskSpan.textContent = task.text;
+        if (task.completed) taskSpan.classList.add('completed');
+
+        const completeButton = document.createElement('button');
+        completeButton.innerHTML = '&#9989;';
+        completeButton.onclick = () => toggleTask(task.id);
+
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.className = 'remove-btn';
+        removeButton.onclick = () => removeTask(task.id);
+
+        listItem.appendChild(completeButton);
+        listItem.appendChild(taskSpan);
+        listItem.appendChild(removeButton);
+        taskList.appendChild(listItem);
+    });
+}
+
 function addTask() {
     const taskInput = document.getElementById('task-input');
-    const taskText = taskInput.value.trim(); // Fixed from ariaValueMax
+    const taskText = taskInput.value.trim();
 
     if (taskText === '') {
         alert('Please enter a task');
         return;
     }
 
-    const taskList = document.getElementById('task-list');
-    const listItem = document.createElement('li');
+    tasks.push({
+        id: Date.now().toString(),
+        text: taskText,
+        completed: false
+    });
 
-    const taskSpan = document.createElement('span');
-    taskSpan.textContent = taskText;
-
-    const completeButton = document.createElement('button');
-    completeButton.innerHTML = '&#9989;';
-    // completeButton.className = 'btn';
-    completeButton.onclick = () => {
-        taskSpan.classList.toggle('completed');
-    };
-
-    const removeButton = document.createElement('button');
-    removeButton.textContent = 'Remove';
-    removeButton.className = 'remove-btn';
-    removeButton.onclick = () => {
-        taskList.removeChild(listItem);
-    };
-
-    listItem.appendChild(completeButton);
-    listItem.appendChild(taskSpan);
-    listItem.appendChild(removeButton);
-    taskList.appendChild(listItem);
+    saveTasks();
+    render();
 
     taskInput.value = '';
+    taskInput.focus();
 }
+
+function toggleTask(id) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+        task.completed = !task.completed;
+        saveTasks();
+        render();
+    }
+}
+
+function removeTask(id) {
+    tasks = tasks.filter(t => t.id !== id);
+    saveTasks();
+    render();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    render();
+
+    const taskInput = document.getElementById('task-input');
+    taskInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') addTask();
+    });
+});

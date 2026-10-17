@@ -27,7 +27,6 @@ h1 {
     margin-bottom: 20px;
     font-weight: 700;
     color: rgb(101, 197, 235);
-    /* text-shadow: 0 0 1px black; */
 }
 
 .input-container {
@@ -97,7 +96,7 @@ li button:hover {
 }
 
 li .remove-btn {
-    background-color: #ea4335; /* Red color for remove button */
+    background-color: #ea4335;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -108,10 +107,9 @@ li .remove-btn {
 }
 
 li .remove-btn:hover {
-    background-color: #b71c1c; /* Darker red on hover */
+    background-color: #b71c1c;
 }
 
-/* Task text styling */
 .completed {
     text-decoration: line-through;
     color: #6c757d;
