@@ -68,3 +68,51 @@ input[type="text"]:focus {
     background-color: #63b1e9;
 }
 
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    padding: 10px 0;
+    border-bottom: 1px dashed #ccc;
+}
+
+li button {
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: 0.3s;
+}
+
+li button:hover {
+    color: #b3cfb8;
+}
+
+li .remove-btn {
+    background-color: #ea4335; /* Red color for remove button */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+li .remove-btn:hover {
+    background-color: #b71c1c; /* Darker red on hover */
+}
+
+/* Task text styling */
+.completed {
+    text-decoration: line-through;
+    color: #6c757d;
+}
