@@ -19,6 +19,7 @@ let tasks = loadTasks();
 
 function render() {
     const taskList = document.getElementById('task-list');
+    const emptyState = document.getElementById('empty-state');
     taskList.innerHTML = '';
 
     tasks.forEach(task => {
@@ -28,6 +29,8 @@ function render() {
         const taskSpan = document.createElement('span');
         taskSpan.textContent = task.text;
         if (task.completed) taskSpan.classList.add('completed');
+        taskSpan.title = 'Double click to edit';
+        taskSpan.ondblclick = () => startEdit(task.id, listItem, taskSpan);
 
         const completeButton = document.createElement('button');
         completeButton.innerHTML = '&#9989;';
@@ -42,6 +45,43 @@ function render() {
         listItem.appendChild(taskSpan);
         listItem.appendChild(removeButton);
         taskList.appendChild(listItem);
+    });
+
+    emptyState.hidden = tasks.length !== 0;
+}
+
+function startEdit(id, listItem, taskSpan) {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'edit-input';
+    input.value = taskSpan.textContent;
+
+    listItem.replaceChild(input, taskSpan);
+    input.focus();
+    input.select();
+
+    let finished = false;
+    const commit = () => {
+        if (finished) return;
+        finished = true;
+        const newText = input.value.trim();
+        const task = tasks.find(t => t.id === id);
+        if (task && newText !== '') {
+            task.text = newText;
+            saveTasks();
+        }
+        render();
+    };
+    const cancel = () => {
+        if (finished) return;
+        finished = true;
+        render();
+    };
+
+    input.addEventListener('blur', commit);
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') commit();
+        if (e.key === 'Escape') cancel();
     });
 }
 

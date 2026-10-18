@@ -114,3 +114,27 @@ li .remove-btn:hover {
     text-decoration: line-through;
     color: #6c757d;
 }
+
+li span {
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+    cursor: text;
+}
+
+.edit-input {
+    flex: 1;
+    min-width: 0;
+    font: inherit;
+    padding: 6px 8px;
+    border: 2px solid #72c5f6;
+    border-radius: 6px;
+    outline: none;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 24px 8px;
+    color: #9aa0a6;
+    font-size: 15px;
+}
