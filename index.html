@@ -16,10 +16,22 @@
                 <input type="text" id="task-input" placeholder="New Task">
                 <button class="btn" onclick="addTask()">Add Task</button>
             </div>
+
+            <div class="toolbar">
+                <div class="filters" role="tablist" aria-label="Filter Task">
+                    <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All</button>
+                    <button class="filter-btn" data-filter="active" role="tab" aria-selected="false">Active</button>
+                    <button class="filter-btn" data-filter="completed" role="tab" aria-selected="false">Completed</button>
+                </div>
+                <span id="task-count" class="task-count"></span>
+            </div>
+
             <ul id="task-list"></ul>
             <div id="empty-state" class="empty-state" hidden>
                 <p>Nothing here yet - add your First Task above.</p>
             </div>
+
+            <button id="clear-completed" class="clear-btn" hidden>Clear Completed</button>
         </div>
         <script src="script.js"></script>
     </body>
